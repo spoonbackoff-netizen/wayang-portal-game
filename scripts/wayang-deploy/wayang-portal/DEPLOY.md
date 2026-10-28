@@ -136,9 +136,86 @@ yourdomain.com {
   read or write to the DB. The `.env` file in this ZIP is just there so
   `next build` doesn't complain about a missing `DATABASE_URL`.
 
-- **No build errors** — this exact code passes ESLint cleanly and the dev
-  build runs without warnings. Vercel/Netlify/Cloudflare will build it
-  identically.
+- **No build errors** — this exact code passes ESLint cleanly and the
+  production build (`next build`) runs without warnings. Vercel/Netlify/
+  Cloudflare will build it identically.
+
+---
+
+## If the deploy fails — quick troubleshooting
+
+If Vercel/Netlify/Cloudflare shows "Build Failed", check the build log
+for the exact error. The most common ones and their fixes:
+
+### 1. `Error: Cannot find module 'next'` or similar missing-dependency errors
+
+→ The `bun.lock` and `node_modules` are NOT supposed to be committed.
+   Vercel runs install itself. If you committed `node_modules/` to
+   GitHub by mistake, delete it and re-push:
+
+   ```bash
+   rm -rf node_modules
+   rm -rf .next
+   git rm -rf --cached node_modules .next 2>/dev/null
+   git add .gitignore
+   git commit -m "Remove committed build artifacts"
+   git push
+   ```
+
+   Then re-trigger the deploy on Vercel (Deployments → ⋮ → Redeploy).
+
+### 2. `Environment Variable "DATABASE_URL" not found` during build
+
+→ Prisma needs `DATABASE_URL` to exist even though the site doesn't use
+   the DB. In Vercel: **Project Settings → Environment Variables → Add**:
+   - Key: `DATABASE_URL`
+   - Value: `file:./dev.db`
+   - Environment: check Production, Preview, and Development
+   - Click Save, then redeploy.
+
+### 3. `Module not found: Can't resolve '@/components/wayang/decor'`
+
+→ The `src/components/wayang/decor.tsx` file is missing from your git
+   push. Verify it's actually on GitHub: open your repo and navigate to
+   `src/components/wayang/decor.tsx`. If it's not there, the initial
+   `git add .` missed it. Re-run:
+
+   ```bash
+   git add src/components/wayang/decor.tsx
+   git commit -m "Add missing wayang decor component"
+   git push
+   ```
+
+### 4. The build succeeds but the page shows 404 or blank screen
+
+→ Wait 1–2 minutes after "Deployed" status. Vercel needs time to
+   propagate. Then hard-refresh (Cmd+Shift+R / Ctrl+Shift+R). If still
+   blank, open the deployed URL with `?_r=1` to bypass any cache.
+
+### 5. The build is using the wrong Node version
+
+→ Vercel auto-detects from the `engines` field in `package.json`
+   (set to `>=18.18.0` in this project). If you see a Node-version
+   error, go to **Project Settings → General → Node.js Version** and
+   set it to `20.x` (the recommended stable version for Next.js 16).
+
+### 6. Build hangs or runs out of memory
+
+→ On Vercel free tier this shouldn't happen for a site this small.
+   If it does, go to **Project Settings → Functions → Function Memory**
+   and bump to `1024 MB` (still free).
+
+### 7. Domain shows "Invalid Configuration" or never issues an SSL cert
+
+→ DNS propagation can take up to 24 hours, but usually 5–30 minutes.
+   Verify your `A` record points to `76.76.21.21` and that no other
+   `A` records or `CNAME`s conflict at the apex. Vercel issues the
+   cert automatically once DNS resolves.
+
+### 8. Other errors
+
+→ Copy the first red error line from the Vercel build log and paste it
+   back into the chat. I'll diagnose and fix.
 
 ---
 

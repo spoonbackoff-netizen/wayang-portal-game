@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, ExternalLink, Flame, Gamepad2, ListMusic, Puzzle, Sparkles } from "lucide-react";
+import { ArrowRight, Drama, ExternalLink, Flame, Gamepad2, ListMusic, Puzzle, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -58,6 +58,24 @@ const GAMES = [
     duration: "≈ 15 min runs",
     players: "1",
     difficulty: "Lively",
+  },
+  {
+    id: "simulasi-wayang",
+    title: "Simulasi Wayang",
+    subtitle: "Interactive Simulator",
+    category: "Simulator",
+    href: "https://sites.google.com/d/1WM260AfUsX62bcq1RU1d4aeN-i4RJuQp/p/1A8iu_ssLx0foX-11ZlLgK1iq8UrkAyzF/edit",
+    isExternal: true,
+    blurb:
+      "Step behind the kelir and become the dalang. Pick up a puppet, move it against the screen, and watch its shadow follow your hand — a hands-on simulation of how the leather figures are actually brought to life.",
+    description:
+      "Simulasi Wayang is a tactile, browser-based simulator that puts the dalang's craft in your hands. Choose a puppet, drag its articulated joints across the screen, and see your shadow play cast live behind the kelir — a low-stakes, high-feel introduction to the actual mechanics of a wayang kulit performance.",
+    tags: ["Interactive", "Simulation", "Hands-on"],
+    icon: Drama,
+    accent: "ember",
+    duration: "Open-ended",
+    players: "1",
+    difficulty: "Free play",
   },
 ] as const;
 
@@ -230,10 +248,10 @@ function Hero() {
         </h1>
 
         <p className="mt-7 mx-auto max-w-xl text-base sm:text-lg font-[family-name:var(--font-serif)] text-parchment/85 leading-relaxed">
-          Two plays lit by a single flame. Step behind the{" "}
+          Three plays lit by a single flame. Step behind the{" "}
           <span className="text-gold">kelir</span> and choose your story — a
-          quiet puzzle, or a rhythm that answers back. More acts are being
-          carved; this is just the overture.
+          quiet puzzle, a rhythm that answers back, or the dalang's own
+          simulator. More acts are being carved; this is just the overture.
         </p>
 
         <div className="mt-9 flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -261,7 +279,7 @@ function Hero() {
         {/* Stats strip */}
         <div className="mt-12 flex items-center justify-center gap-6 sm:gap-10 text-center">
           {[
-            { num: "2", label: "Permainan" },
+            { num: "3", label: "Permainan" },
             { num: "∞", label: "Pertandingan" },
             { num: "1", label: "Lampu Pelita" },
           ].map((stat, i) => (
@@ -291,10 +309,46 @@ function Hero() {
 
 /* ============== Section: Games Showcase ============== */
 
+type Accent = "gold" | "crimson" | "ember";
+
+const ACCENTS: Record<
+  Accent,
+  {
+    glow: string;
+    halo: string;
+    dropShadow: string;
+    badge: string;
+    Puppet: React.ComponentType<{ className?: string }>;
+  }
+> = {
+  gold: {
+    glow: "radial-gradient(circle at 30% 0%, oklch(0.72 0.16 75 / 0.22) 0%, transparent 55%)",
+    halo: "radial-gradient(circle, oklch(0.78 0.13 80 / 0.32) 0%, transparent 70%)",
+    dropShadow: "drop-shadow(0 0 28px oklch(0.78 0.13 80 / 0.45))",
+    badge: "border-gold/50 bg-gold/15 text-gold",
+    Puppet: PuppetWarrior,
+  },
+  crimson: {
+    glow: "radial-gradient(circle at 30% 0%, oklch(0.55 0.13 30 / 0.32) 0%, transparent 55%)",
+    halo: "radial-gradient(circle, oklch(0.55 0.13 30 / 0.4) 0%, transparent 70%)",
+    dropShadow: "drop-shadow(0 0 28px oklch(0.55 0.13 30 / 0.55))",
+    badge: "border-crimson/50 bg-crimson-deep/30 text-crimson",
+    Puppet: PuppetClown,
+  },
+  ember: {
+    glow: "radial-gradient(circle at 30% 0%, oklch(0.65 0.22 45 / 0.28) 0%, transparent 55%)",
+    halo: "radial-gradient(circle, oklch(0.65 0.22 45 / 0.38) 0%, transparent 70%)",
+    dropShadow: "drop-shadow(0 0 28px oklch(0.65 0.22 45 / 0.55))",
+    badge: "border-ember/50 bg-ember/15 text-ember",
+    Puppet: PuppetDancer,
+  },
+};
+
 function GameCard({ game, index }: { game: (typeof GAMES)[number]; index: number }) {
   const reduce = useReducedMotion();
   const Icon = game.icon;
-  const isCrimson = game.accent === "crimson";
+  const accent = ACCENTS[game.accent as Accent];
+  const Puppet = accent.Puppet;
 
   return (
     <motion.article
@@ -314,11 +368,7 @@ function GameCard({ game, index }: { game: (typeof GAMES)[number]; index: number
       <div
         aria-hidden
         className="absolute inset-0 opacity-60 pointer-events-none"
-        style={{
-          background: isCrimson
-            ? "radial-gradient(circle at 30% 0%, oklch(0.55 0.13 30 / 0.32) 0%, transparent 55%)"
-            : "radial-gradient(circle at 30% 0%, oklch(0.72 0.16 75 / 0.22) 0%, transparent 55%)",
-        }}
+        style={{ background: accent.glow }}
       />
 
       <div className="relative grid md:grid-cols-[280px_1fr] gap-0">
@@ -336,34 +386,22 @@ function GameCard({ game, index }: { game: (typeof GAMES)[number]; index: number
           <div
             aria-hidden
             className="absolute w-44 h-44 rounded-full"
-            style={{
-              background: isCrimson
-                ? "radial-gradient(circle, oklch(0.55 0.13 30 / 0.4) 0%, transparent 70%)"
-                : "radial-gradient(circle, oklch(0.78 0.13 80 / 0.32) 0%, transparent 70%)",
-            }}
+            style={{ background: accent.halo }}
           />
           {/* The puppet */}
           <div
             className={`relative w-32 sm:w-36 md:w-44 text-parchment/85 lamp-flicker ${
               reduce ? "" : "puppet-sway-slow"
             }`}
-            style={{
-              filter: isCrimson
-                ? "drop-shadow(0 0 28px oklch(0.55 0.13 30 / 0.55))"
-                : "drop-shadow(0 0 28px oklch(0.78 0.13 80 / 0.45))",
-            }}
+            style={{ filter: accent.dropShadow }}
           >
-            {isCrimson ? <PuppetClown className="w-full h-auto" /> : <PuppetWarrior className="w-full h-auto" />}
+            <Puppet className="w-full h-auto" />
           </div>
 
           {/* Floating category badge */}
           <div className="absolute top-3 left-3">
             <span
-              className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[0.65rem] font-[family-name:var(--font-display)] tracking-[0.2em] uppercase ${
-                isCrimson
-                  ? "border-crimson/50 bg-crimson-deep/30 text-crimson"
-                  : "border-gold/50 bg-gold/15 text-gold"
-              }`}
+              className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[0.65rem] font-[family-name:var(--font-display)] tracking-[0.2em] uppercase ${accent.badge}`}
             >
               <Icon className="w-3 h-3" />
               {game.category}
@@ -484,8 +522,8 @@ function GamesShowcase() {
             Pilih <span className="gold-text">Permainan</span>
           </h2>
           <p className="mt-4 mx-auto max-w-2xl font-[family-name:var(--font-serif)] italic text-parchment/75 text-base sm:text-lg">
-            Two acts are lit on the stage tonight. Choose your play, then take
-            your seat behind the screen.
+            Three acts are lit on the stage tonight. Choose your play, then
+            take your seat behind the screen.
           </p>
         </motion.div>
 
@@ -659,7 +697,7 @@ function RoadmapSection() {
       num: "01",
       title: "Pilih Pentas",
       en: "Pick the Stage",
-      desc: "Scroll up to the permainan list and choose between the puzzle and the rhythm game. Each opens in its own tab — bring the lamp with you.",
+      desc: "Scroll up to the permainan list and choose between the puzzle, the rhythm game, or the simulator. Each opens in its own tab — bring the lamp with you.",
     },
     {
       num: "02",
@@ -749,7 +787,7 @@ function Footer() {
               </span>
             </div>
             <p className="mt-4 max-w-md font-[family-name:var(--font-serif)] text-sm text-parchment/75 leading-relaxed">
-              An arcade behind the screen. Two plays tonight, more being
+              An arcade behind the screen. Three plays tonight, more being
               carved. Built in the spirit of the dalang — one hand, one lamp,
               one story at a time.
             </p>
