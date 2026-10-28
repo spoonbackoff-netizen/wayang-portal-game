@@ -1,0 +1,255 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+  --font-serif: var(--font-serif);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-gold: var(--gold);
+  --color-gold-bright: var(--gold-bright);
+  --color-gold-deep: var(--gold-deep);
+  --color-crimson: var(--crimson);
+  --color-crimson-deep: var(--crimson-deep);
+  --color-parchment: var(--parchment);
+  --color-shadow: var(--shadow);
+  --color-ember: var(--ember);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.5rem;
+
+  /* Wayang Kulit theatrical palette — stage at dusk, parchment & gold */
+  --background: oklch(0.13 0.018 35);
+  --foreground: oklch(0.92 0.045 75);
+
+  --card: oklch(0.17 0.025 32);
+  --card-foreground: oklch(0.92 0.045 75);
+
+  --popover: oklch(0.16 0.022 32);
+  --popover-foreground: oklch(0.92 0.045 75);
+
+  --primary: oklch(0.72 0.16 75);
+  --primary-foreground: oklch(0.16 0.025 32);
+
+  --secondary: oklch(0.25 0.04 30);
+  --secondary-foreground: oklch(0.92 0.045 75);
+
+  --muted: oklch(0.22 0.028 32);
+  --muted-foreground: oklch(0.7 0.055 70);
+
+  --accent: oklch(0.55 0.13 30);
+  --accent-foreground: oklch(0.95 0.04 75);
+
+  --destructive: oklch(0.55 0.21 25);
+
+  --border: oklch(0.32 0.04 35 / 40%);
+  --input: oklch(0.32 0.04 35 / 50%);
+  --ring: oklch(0.72 0.16 75 / 60%);
+
+  --chart-1: oklch(0.72 0.16 75);
+  --chart-2: oklch(0.55 0.13 30);
+  --chart-3: oklch(0.62 0.10 50);
+  --chart-4: oklch(0.78 0.13 85);
+  --chart-5: oklch(0.45 0.12 15);
+
+  --sidebar: oklch(0.17 0.025 32);
+  --sidebar-foreground: oklch(0.92 0.045 75);
+  --sidebar-primary: oklch(0.72 0.16 75);
+  --sidebar-primary-foreground: oklch(0.16 0.025 32);
+  --sidebar-accent: oklch(0.25 0.04 30);
+  --sidebar-accent-foreground: oklch(0.95 0.04 75);
+  --sidebar-border: oklch(0.32 0.04 35 / 40%);
+  --sidebar-ring: oklch(0.72 0.16 75 / 60%);
+
+  /* Wayang Kulit named accents */
+  --gold: oklch(0.78 0.13 80);
+  --gold-bright: oklch(0.88 0.14 88);
+  --gold-deep: oklch(0.55 0.12 65);
+  --crimson: oklch(0.52 0.18 28);
+  --crimson-deep: oklch(0.38 0.14 22);
+  --parchment: oklch(0.92 0.045 75);
+  --shadow: oklch(0.08 0.012 30);
+  --ember: oklch(0.65 0.22 45);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    background-image:
+      radial-gradient(circle at 20% 10%, oklch(0.20 0.04 30 / 0.55) 0%, transparent 45%),
+      radial-gradient(circle at 80% 85%, oklch(0.55 0.13 30 / 0.18) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, oklch(0.16 0.025 32) 0%, oklch(0.10 0.018 35) 100%);
+    background-attachment: fixed;
+  }
+  ::selection {
+    background-color: oklch(0.72 0.16 75 / 35%);
+    color: oklch(0.95 0.04 75);
+  }
+}
+
+/* ===== Wayang Kulit ambient animations ===== */
+
+/* Flicker — simulating the oil lamp (pelita) that casts the shadows */
+@keyframes lampFlicker {
+  0%, 100% { opacity: 1; }
+  8% { opacity: 0.86; }
+  12% { opacity: 0.95; }
+  30% { opacity: 0.78; }
+  60% { opacity: 0.92; }
+  72% { opacity: 0.82; }
+}
+.lamp-flicker {
+  animation: lampFlicker 5s ease-in-out infinite;
+}
+
+/* Soft sway — for the floating puppet silhouettes */
+@keyframes puppetSway {
+  0%, 100% { transform: rotate(-1.4deg) translateY(0); }
+  50% { transform: rotate(1.4deg) translateY(-6px); }
+}
+.puppet-sway {
+  animation: puppetSway 7s ease-in-out infinite;
+  transform-origin: top center;
+}
+.puppet-sway-slow {
+  animation: puppetSway 11s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+/* Ember glow pulse — for accents and CTA borders */
+@keyframes emberPulse {
+  0%, 100% { box-shadow: 0 0 0 0 oklch(0.65 0.22 45 / 0.35), 0 0 22px 2px oklch(0.72 0.16 75 / 0.22); }
+  50% { box-shadow: 0 0 0 0 oklch(0.65 0.22 45 / 0), 0 0 38px 6px oklch(0.72 0.16 75 / 0.36); }
+}
+.ember-pulse {
+  animation: emberPulse 3.4s ease-in-out infinite;
+}
+
+/* Slow rotation for ornate ring motifs */
+@keyframes slowSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.slow-spin {
+  animation: slowSpin 60s linear infinite;
+}
+.slow-spin-rev {
+  animation: slowSpin 80s linear infinite reverse;
+}
+
+/* Slow fade-in for sections */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-up {
+  animation: fadeUp 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Vintage paper grain */
+.paper-grain {
+  background-image:
+    radial-gradient(circle at 25% 35%, oklch(0.92 0.045 75 / 0.04) 0%, transparent 25%),
+    radial-gradient(circle at 75% 60%, oklch(0.55 0.13 30 / 0.06) 0%, transparent 30%);
+}
+
+/* Custom scrollbar for the long lists */
+.custom-scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.custom-scroll::-webkit-scrollbar-track {
+  background: oklch(0.13 0.018 35);
+}
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: oklch(0.45 0.10 65 / 0.6);
+  border-radius: 8px;
+}
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.65 0.14 75 / 0.8);
+}
+
+/* Ornate top-border (sogan-inspired) */
+.ornate-top {
+  position: relative;
+}
+.ornate-top::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: linear-gradient(to right,
+    transparent 0%,
+    oklch(0.55 0.12 65 / 0.4) 20%,
+    oklch(0.78 0.13 80 / 0.7) 50%,
+    oklch(0.55 0.12 65 / 0.4) 80%,
+    transparent 100%);
+}
+
+/* Wayang card hover — lifts gently with a golden halo */
+.wayang-card {
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.55s ease;
+}
+.wayang-card:hover {
+  transform: translateY(-6px);
+  border-color: oklch(0.72 0.16 75 / 0.55);
+  box-shadow:
+    0 22px 60px -22px oklch(0.08 0.012 30 / 0.9),
+    0 0 38px -4px oklch(0.72 0.16 75 / 0.32),
+    inset 0 1px 0 0 oklch(0.78 0.13 80 / 0.18);
+}
+
+/* Gold text — gradient sheen */
+.gold-text {
+  background: linear-gradient(120deg,
+    oklch(0.78 0.13 80) 0%,
+    oklch(0.92 0.10 90) 45%,
+    oklch(0.65 0.15 70) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
