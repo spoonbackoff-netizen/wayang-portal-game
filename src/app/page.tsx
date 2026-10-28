@@ -13,7 +13,6 @@ import {
   PuppetWarrior,
   PuppetDancer,
   PuppetClown,
-  GununganMotif,
   AwanMotif,
   BungaMotif,
   WayangBorder,
@@ -98,7 +97,7 @@ function Navbar() {
           <span className="font-[family-name:var(--font-display)] text-xl font-semibold tracking-[0.18em] text-parchment group-hover:text-gold-bright transition-colors">
             WAYANG
           </span>
-          <span className="hidden sm:inline text-[0.65rem] font-[family-name:var(--font-serif)] italic text-muted-foreground tracking-wider">
+          <span className="hidden sm:inline text-[0.65rem] font-[family-name:var(--font-serif)] italic text-gold/70 tracking-wider">
             portal bayang
           </span>
         </a>
@@ -108,7 +107,7 @@ function Navbar() {
             <li key={link.href}>
               <a
                 href={link.href}
-                className="px-4 py-2 text-sm font-[family-name:var(--font-serif)] text-muted-foreground hover:text-parchment transition-colors relative group"
+                className="px-4 py-2 text-sm font-[family-name:var(--font-serif)] text-parchment/85 hover:text-gold-bright transition-colors relative group"
               >
                 {link.label}
                 <span className="absolute inset-x-3 -bottom-0.5 h-px bg-gradient-to-r from-transparent via-gold to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
@@ -150,7 +149,7 @@ function Navbar() {
                 <a
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="block px-3 py-2.5 text-sm font-[family-name:var(--font-serif)] text-muted-foreground hover:text-parchment rounded-md hover:bg-gold/10 transition-colors"
+                  className="block px-3 py-2.5 text-sm font-[family-name:var(--font-serif)] text-parchment/90 hover:text-gold-bright rounded-md hover:bg-gold/10 transition-colors"
                 >
                   {link.label}
                 </a>
@@ -172,84 +171,80 @@ function Hero() {
       id="home"
       className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16"
     >
-      {/* Vignette backdrop */}
+      {/* Vignette backdrop — calmer than before so text reads cleanly */}
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 70% 60% at 50% 40%, oklch(0.22 0.04 32 / 0.85) 0%, oklch(0.13 0.018 35 / 0.6) 45%, oklch(0.08 0.012 30 / 1) 100%)",
+            "radial-gradient(ellipse 60% 55% at 50% 45%, oklch(0.20 0.035 30 / 0.6) 0%, oklch(0.13 0.018 35 / 0.85) 55%, oklch(0.09 0.012 30 / 1) 100%)",
         }}
       />
 
-      {/* Puppets flanking the title */}
+      {/* Puppets flanking the title — hidden on small screens to keep text uncrowded */}
       <div
         aria-hidden
-        className={`absolute left-0 bottom-0 -mb-6 sm:-mb-10 sm:ml-4 md:ml-12 lg:ml-20 w-28 sm:w-40 md:w-52 lg:w-64 text-gold/35 lamp-flicker ${
+        className={`hidden lg:block absolute left-0 bottom-0 -mb-6 lg:ml-16 xl:ml-24 w-32 xl:w-40 text-gold/30 lamp-flicker pointer-events-none ${
           reduce ? "" : "puppet-sway-slow"
         }`}
-        style={{ filter: "drop-shadow(0 0 30px oklch(0.65 0.22 45 / 0.4))" }}
+        style={{ filter: "drop-shadow(0 0 30px oklch(0.65 0.22 45 / 0.32))" }}
       >
         <PuppetWarrior className="w-full h-auto" />
       </div>
       <div
         aria-hidden
-        className={`absolute right-0 bottom-0 -mb-6 sm:-mb-10 sm:mr-4 md:mr-12 lg:mr-20 w-28 sm:w-40 md:w-52 lg:w-64 text-gold/35 lamp-flicker ${
+        className={`hidden lg:block absolute right-0 bottom-0 -mb-6 lg:mr-16 xl:mr-24 w-32 xl:w-40 text-gold/30 lamp-flicker pointer-events-none ${
           reduce ? "" : "puppet-sway"
         }`}
-        style={{ filter: "drop-shadow(0 0 30px oklch(0.65 0.22 45 / 0.4))" }}
+        style={{ filter: "drop-shadow(0 0 30px oklch(0.65 0.22 45 / 0.32))" }}
       >
         <PuppetDancer className="w-full h-auto -scale-x-100" />
       </div>
 
-      {/* Centerpiece: the gunungan */}
-      <motion.div
-        aria-hidden
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute top-12 sm:top-16 left-1/2 -translate-x-1/2 w-32 sm:w-40 md:w-48 text-gold/30 slow-spin-rev pointer-events-none"
-        style={{ filter: "drop-shadow(0 0 26px oklch(0.78 0.13 80 / 0.3))" }}
-      >
-        <GununganMotif className="w-full h-auto" />
-      </motion.div>
-
-      {/* Decorative awans */}
-      <div
-        aria-hidden
-        className="absolute top-32 left-0 right-0 flex justify-center text-gold/20 px-4 pointer-events-none"
-      >
-        <AwanMotif className="w-full max-w-2xl h-auto" />
-      </div>
-
       {/* Title */}
-      <div className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-4xl text-center fade-up">
-        <div className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/5 px-4 py-1.5 mb-6">
+      <div className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-3xl text-center fade-up">
+        <div className="inline-flex items-center gap-2 rounded-full border border-gold/50 bg-gold/15 px-4 py-1.5 mb-7 backdrop-blur-sm">
           <span className="w-1.5 h-1.5 rounded-full bg-gold-bright lamp-flicker" />
-          <span className="text-[0.7rem] font-[family-name:var(--font-display)] tracking-[0.32em] text-gold/90 uppercase">
+          <span className="text-[0.7rem] font-[family-name:var(--font-display)] tracking-[0.28em] text-gold-bright uppercase">
             Portal Permainan Bayang
           </span>
         </div>
 
         <h1 className="font-[family-name:var(--font-display)] text-5xl sm:text-7xl md:text-8xl font-bold tracking-[0.04em] text-parchment leading-[1.05]">
-          <span className="block gold-text">WAYANG</span>
+          <span
+            className="block"
+            style={{
+              background:
+                "linear-gradient(120deg, oklch(0.82 0.14 80) 0%, oklch(0.95 0.10 90) 50%, oklch(0.70 0.16 70) 100%)",
+              WebkitBackgroundClip: "text",
+              backgroundClip: "text",
+              color: "transparent",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            WAYANG
+          </span>
           <span className="block text-2xl sm:text-4xl md:text-5xl font-[family-name:var(--font-serif)] italic font-normal text-muted-foreground tracking-normal mt-3">
             an arcade behind the screen
           </span>
         </h1>
 
-        <p className="mt-7 mx-auto max-w-xl text-base sm:text-lg font-[family-name:var(--font-serif)] text-muted-foreground/90 leading-relaxed">
-          Two plays lit by a single flame. Step behind the
-          <span className="text-gold/90"> kelir </span>
-          and choose your story — a quiet puzzle, or a rhythm that answers
-          back. More acts are being carved; this is just the overture.
+        <p className="mt-7 mx-auto max-w-xl text-base sm:text-lg font-[family-name:var(--font-serif)] text-parchment/85 leading-relaxed">
+          Two plays lit by a single flame. Step behind the{" "}
+          <span className="text-gold">kelir</span> and choose your story — a
+          quiet puzzle, or a rhythm that answers back. More acts are being
+          carved; this is just the overture.
         </p>
 
         <div className="mt-9 flex flex-col sm:flex-row items-center justify-center gap-3">
           <a
             href="#games"
-            className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-gold-deep via-gold to-gold-bright px-6 py-3 text-sm font-[family-name:var(--font-display)] tracking-[0.18em] text-shadow font-semibold text-shadow/90 hover:from-gold hover:to-gold-bright transition-all ember-pulse"
-            style={{ color: "oklch(0.13 0.018 35)" }}
+            className="group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-[family-name:var(--font-display)] tracking-[0.18em] font-semibold ember-pulse transition-all"
+            style={{
+              background:
+                "linear-gradient(120deg, oklch(0.62 0.15 65) 0%, oklch(0.82 0.14 80) 50%, oklch(0.88 0.12 85) 100%)",
+              color: "oklch(0.13 0.018 35)",
+            }}
           >
             <Gamepad2 className="w-4 h-4" />
             PILIH PERMAINAN
@@ -257,7 +252,7 @@ function Hero() {
           </a>
           <a
             href="#about"
-            className="inline-flex items-center gap-2 rounded-full border border-gold/30 px-6 py-3 text-sm font-[family-name:var(--font-display)] tracking-[0.18em] text-parchment hover:bg-gold/10 hover:border-gold/60 transition-all"
+            className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-card/40 px-6 py-3 text-sm font-[family-name:var(--font-display)] tracking-[0.18em] text-parchment hover:bg-gold/15 hover:border-gold/70 transition-all"
           >
             KISAH WAYANG
           </a>
@@ -271,12 +266,12 @@ function Hero() {
             { num: "1", label: "Lampu Pelita" },
           ].map((stat, i) => (
             <React.Fragment key={stat.label}>
-              {i > 0 && <Separator orientation="vertical" className="h-10 bg-gold/20" />}
+              {i > 0 && <Separator orientation="vertical" className="h-10 bg-gold/30" />}
               <div>
                 <div className="font-[family-name:var(--font-display)] text-2xl sm:text-3xl text-gold-bright">
                   {stat.num}
                 </div>
-                <div className="text-[0.7rem] sm:text-xs uppercase tracking-[0.2em] text-muted-foreground/80 font-[family-name:var(--font-serif)]">
+                <div className="text-[0.7rem] sm:text-xs uppercase tracking-[0.2em] text-parchment/70 font-[family-name:var(--font-serif)]">
                   {stat.label}
                 </div>
               </div>
@@ -286,9 +281,9 @@ function Hero() {
       </div>
 
       {/* Scroll hint */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-gold/50 text-[0.65rem] uppercase tracking-[0.3em] font-[family-name:var(--font-display)] flex flex-col items-center gap-2">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-gold/60 text-[0.65rem] uppercase tracking-[0.3em] font-[family-name:var(--font-display)] flex flex-col items-center gap-2">
         <span>scroll</span>
-        <span className="block w-px h-8 bg-gradient-to-b from-gold/60 to-transparent" />
+        <span className="block w-px h-8 bg-gradient-to-b from-gold/70 to-transparent" />
       </div>
     </section>
   );
@@ -380,7 +375,7 @@ function GameCard({ game, index }: { game: (typeof GAMES)[number]; index: number
         <div className="relative p-6 sm:p-7 md:p-8 flex flex-col">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <div className="text-[0.7rem] uppercase tracking-[0.28em] text-muted-foreground font-[family-name:var(--font-display)]">
+              <div className="text-[0.7rem] uppercase tracking-[0.28em] text-gold/80 font-[family-name:var(--font-display)]">
                 {String(index + 1).padStart(2, "0")} — Permainan
               </div>
               <h3 className="mt-1 font-[family-name:var(--font-display)] text-3xl sm:text-4xl font-bold text-parchment tracking-[0.03em]">
@@ -393,14 +388,14 @@ function GameCard({ game, index }: { game: (typeof GAMES)[number]; index: number
             <BungaMotif className="w-9 h-9 text-gold/30 shrink-0 slow-spin" />
           </div>
 
-          <p className="mt-4 text-sm sm:text-base font-[family-name:var(--font-serif)] text-muted-foreground leading-relaxed">
+          <p className="mt-4 text-sm sm:text-base font-[family-name:var(--font-serif)] text-parchment/85 leading-relaxed">
             {game.blurb}
           </p>
 
           {/* Meta row */}
           <dl className="mt-5 grid grid-cols-3 gap-3 text-xs">
             <div>
-              <dt className="text-muted-foreground/70 uppercase tracking-wider text-[0.65rem] font-[family-name:var(--font-display)]">
+              <dt className="text-gold/80 uppercase tracking-wider text-[0.65rem] font-[family-name:var(--font-display)]">
                 Pemain
               </dt>
               <dd className="mt-1 text-parchment font-[family-name:var(--font-serif)] text-sm">
@@ -408,7 +403,7 @@ function GameCard({ game, index }: { game: (typeof GAMES)[number]; index: number
               </dd>
             </div>
             <div>
-              <dt className="text-muted-foreground/70 uppercase tracking-wider text-[0.65rem] font-[family-name:var(--font-display)]">
+              <dt className="text-gold/80 uppercase tracking-wider text-[0.65rem] font-[family-name:var(--font-display)]">
                 Tempoh
               </dt>
               <dd className="mt-1 text-parchment font-[family-name:var(--font-serif)] text-sm">
@@ -416,7 +411,7 @@ function GameCard({ game, index }: { game: (typeof GAMES)[number]; index: number
               </dd>
             </div>
             <div>
-              <dt className="text-muted-foreground/70 uppercase tracking-wider text-[0.65rem] font-[family-name:var(--font-display)]">
+              <dt className="text-gold/80 uppercase tracking-wider text-[0.65rem] font-[family-name:var(--font-display)]">
                 Aras
               </dt>
               <dd className="mt-1 text-parchment font-[family-name:var(--font-serif)] text-sm">
@@ -430,7 +425,7 @@ function GameCard({ game, index }: { game: (typeof GAMES)[number]; index: number
             {game.tags.map((tag) => (
               <span
                 key={tag}
-                className="inline-flex items-center gap-1 rounded-full border border-gold/15 bg-secondary/60 px-2.5 py-0.5 text-[0.7rem] font-[family-name:var(--font-serif)] text-muted-foreground"
+                className="inline-flex items-center gap-1 rounded-full border border-gold/25 bg-secondary/60 px-2.5 py-0.5 text-[0.7rem] font-[family-name:var(--font-serif)] text-parchment/80"
               >
                 <Sparkles className="w-2.5 h-2.5 text-gold/60" />
                 {tag}
@@ -488,7 +483,7 @@ function GamesShowcase() {
           <h2 className="mt-3 font-[family-name:var(--font-display)] text-4xl sm:text-5xl md:text-6xl font-bold text-parchment tracking-[0.03em]">
             Pilih <span className="gold-text">Permainan</span>
           </h2>
-          <p className="mt-4 mx-auto max-w-2xl font-[family-name:var(--font-serif)] italic text-muted-foreground text-base sm:text-lg">
+          <p className="mt-4 mx-auto max-w-2xl font-[family-name:var(--font-serif)] italic text-parchment/75 text-base sm:text-lg">
             Two acts are lit on the stage tonight. Choose your play, then take
             your seat behind the screen.
           </p>
@@ -578,7 +573,7 @@ function AboutSection() {
               <div className="relative inline-flex justify-center w-32 sm:w-36 text-gold/70 lamp-flicker puppet-sway-slow">
                 <PuppetDancer className="w-full h-auto" />
               </div>
-              <p className="relative mt-4 font-[family-name:var(--font-serif)] italic text-sm text-muted-foreground">
+              <p className="relative mt-4 font-[family-name:var(--font-serif)] italic text-sm text-parchment/70">
                 a single puppet, hand-perforated
               </p>
             </div>
@@ -590,7 +585,7 @@ function AboutSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="space-y-5 text-base sm:text-lg font-[family-name:var(--font-serif)] text-muted-foreground/95 leading-relaxed"
+            className="space-y-5 text-base sm:text-lg font-[family-name:var(--font-serif)] text-parchment/85 leading-relaxed"
           >
             <p>
               <span className="text-gold font-semibold">Wayang Kulit</span> is
@@ -652,13 +647,6 @@ function AboutSection() {
         </div>
       </div>
 
-      {/* Bottom awan */}
-      <div
-        aria-hidden
-        className="absolute bottom-0 inset-x-0 flex justify-center text-gold/15 pointer-events-none -scale-y-100"
-      >
-        <AwanMotif className="w-full max-w-3xl h-auto" />
-      </div>
     </section>
   );
 }
@@ -730,7 +718,7 @@ function RoadmapSection() {
               <p className="font-[family-name:var(--font-serif)] italic text-xs text-gold/70 mb-3">
                 {step.en}
               </p>
-              <p className="text-sm font-[family-name:var(--font-serif)] text-muted-foreground leading-relaxed">
+              <p className="text-sm font-[family-name:var(--font-serif)] text-parchment/80 leading-relaxed">
                 {step.desc}
               </p>
             </motion.div>
@@ -760,7 +748,7 @@ function Footer() {
                 WAYANG
               </span>
             </div>
-            <p className="mt-4 max-w-md font-[family-name:var(--font-serif)] text-sm text-muted-foreground leading-relaxed">
+            <p className="mt-4 max-w-md font-[family-name:var(--font-serif)] text-sm text-parchment/75 leading-relaxed">
               An arcade behind the screen. Two plays tonight, more being
               carved. Built in the spirit of the dalang — one hand, one lamp,
               one story at a time.
@@ -775,7 +763,7 @@ function Footer() {
               </a>
               <a
                 href="#about"
-                className="inline-flex items-center rounded-full border border-gold/15 px-3.5 py-1.5 text-[0.7rem] font-[family-name:var(--font-display)] tracking-[0.18em] text-muted-foreground hover:text-parchment hover:border-gold/40 transition-colors"
+                className="inline-flex items-center rounded-full border border-gold/30 px-3.5 py-1.5 text-[0.7rem] font-[family-name:var(--font-display)] tracking-[0.18em] text-parchment/80 hover:text-gold-bright hover:border-gold/60 transition-colors"
               >
                 KISAH
               </a>
@@ -793,14 +781,14 @@ function Footer() {
                     href={g.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-parchment transition-colors"
+                    className="inline-flex items-center gap-1.5 text-parchment/80 hover:text-gold-bright transition-colors"
                   >
                     {g.title}
                     <ExternalLink className="w-3 h-3 opacity-50" />
                   </a>
                 </li>
               ))}
-              <li className="text-muted-foreground/60 italic text-xs pt-1">
+              <li className="text-parchment/60 italic text-xs pt-1">
                 Lebih banyak akan datang
               </li>
             </ul>
@@ -810,7 +798,7 @@ function Footer() {
             <h4 className="font-[family-name:var(--font-display)] text-xs uppercase tracking-[0.24em] text-gold/80 mb-3">
               Istilah
             </h4>
-            <ul className="space-y-2 text-sm font-[family-name:var(--font-serif)] text-muted-foreground">
+            <ul className="space-y-2 text-sm font-[family-name:var(--font-serif)] text-parchment/80">
               <li>Kelir — the screen</li>
               <li>Pelita — the lamp</li>
               <li>Dalang — the puppeteer</li>
@@ -819,7 +807,7 @@ function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 pt-6 border-t border-gold/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-[family-name:var(--font-serif)] text-muted-foreground/70">
+        <div className="mt-10 pt-6 border-t border-gold/15 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-[family-name:var(--font-serif)] text-parchment/70">
           <div className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-gold/60 lamp-flicker" />
             <span>
